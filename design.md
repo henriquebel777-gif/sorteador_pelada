@@ -2,17 +2,13 @@
 
 Este guia rápido estabelece os padrões visuais e a consistência estética do projeto **Sorteador de Pelada Torneio**, garantindo harmonia de interface e profissionalismo em todas as telas.
 
----
-
-## 1. ⚽ Logotipo do Projeto
+## 1.  Logotipo do Projeto
 O logotipo foi projetado em formato de Wordmark estilizada diretamente via CSS, unindo modernidade e dinamismo esportivo.
 
 * **Texto Estilizado:** PELADA**SORTEIO**
 * **Subtítulo:** Torneio & Equilíbrio
 
----
-
-## 2. 🎨 Paleta de Cores Principais (Hexadecimal)
+## 2.  Paleta de Cores Principais (Hexadecimal)
 
 O esquema de cores foi planejado para passar alta energia (tons esportivos) e garantir leitura rápida sob a luz do sol na beira do campo:
 
@@ -22,9 +18,8 @@ O esquema de cores foi planejado para passar alta energia (tons esportivos) e ga
 * ⬜ **Branco Gelo (Fundo):** `#F8FAFC` - Cor predominante de fundo para manter um layout limpo e de alto contraste.
 * ⬛ **Grafite Escuro (Texto):** `#2D3748` - Utilizado em toda a tipografia base para evitar o cansaço visual do preto puro.
 
----
 
-## 📝 3. Tipografia (Google Fonts)
+##  3. Tipografia (Google Fonts)
 
 Para garantir excelente legibilidade em dispositivos móveis e desktops, o projeto importa duas fontes oficiais da biblioteca do Google:
 
