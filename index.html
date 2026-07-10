@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorteador de Pelada Torneio</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+
+    <header>
+        <h1> Sorteador de Pelada </h1>
+        <p>Múltiplos times, goleiros fixos e equilíbrio técnico real!</p>
+    </header>
+
+    <main class="container">
+        <section class="card">
+            <h2>Cadastrar Novo Jogador</h2>
+            <form id="form-jogador">
+                <div class="form-group">
+                    <label for="nome">Nome do Craque:</label>
+                    <input type="text" id="nome" required placeholder="Ex: caça rato">
+                </div>
+                
+                <div class="form-group">
+                    <label>Posição:</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="posicao" value="linha" checked>  Linha</label>
+                        <label><input type="radio" name="posicao" value="goleiro">  Goleiro</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Nível de Habilidade:</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="nivel" value="1" checked> ⭐️ pereba</label>
+                        <label><input type="radio" name="nivel" value="2"> ⭐️⭐️ bola murcha</label>
+                        <label><input type="radio" name="nivel" value="3"> ⭐️⭐️⭐️ craque</label>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary">Salvar no Elenco</button>
+            </form>
+        </section>
+
+        <section class="card">
+            <h2>Elenco Salvo (<span id="contador">0</span> no total)</h2>
+            
+            <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                <button type="button" onclick="marcarTodos(true)" class="btn-secundario" style="padding: 6px; font-size: 0.85rem;">✓ Marcar Todos</button>
+                <button type="button" onclick="marcarTodos(false)" class="btn-secundario" style="padding: 6px; font-size: 0.85rem;">✕ Desmarcar Todos</button>
+            </div>
+            
+            <p style="font-size: 0.85rem; color: #666; margin-bottom: 10px;">Marque os presentes para o jogo:</p>
+            
+            <ul id="lista-jogadores"></ul>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px;">
+                <div class="form-group">
+                    <label for="qtd-times">Quantos times?</label>
+                    <select id="qtd-times" class="select-custom">
+                        <option value="2" selected>2 Times</option>
+                        <option value="3">3 Times</option>
+                        <option value="4">4 Times</option>
+                        <option value="5">5 Times</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="limite-por-time">Titulares na linha?</label>
+                    <input type="number" id="limite-por-time" class="select-custom" value="5" min="2" max="11">
+                </div>
+            </div>
+
+            <button id="btn-sortear" class="btn-success"> Sortear Presentes</button>
+        </section>
+
+        <section id="resultado" class="card hidden">
+            <h2>🔥 Times Formados</h2> 
+            
+            <div id="times-dinamicos-container" class="times-container"></div>
+
+            <div id="bloco-espera" class="time-bloco" style="margin-top: 15px; border-top-color: #ff9800; display: none;">
+                <h3 style="color: #ff9800;"> Revezamento Geral / Próximos da Fila</h3>
+                <ul id="lista-espera-lista" style="margin-top: 10px;"></ul>
+            </div>
+
+            <button id="btn-whatsapp" class="btn-whats"> Copiar para o WhatsApp</button>
+        </section>
+    </main>
+
+</body>
+</html>
