@@ -8,7 +8,7 @@ Este guia rápido estabelece os padrões visuais e a consistência estética do 
 O logotipo foi projetado em formato de Wordmark estilizada diretamente via CSS, unindo modernidade e dinamismo esportivo.
 
 * **Texto Estilizado:** PELADA**SORTEIO**
-* **Subtítulo:** Torneio & Equilíbrio Elite
+* **Subtítulo:** Torneio & Equilíbrio
 
 ---
 
@@ -37,5 +37,3 @@ Para garantir excelente legibilidade em dispositivos móveis e desktops, o proje
 * **Fonte:** `Inter` (Sans-Serif)
 * **Pesos utilizados:** 400 (Regular) e 500 (Medium)
 * **Aplicação:** Inputs, labels de cadastro, lista de nomes dos jogadores e corpo do texto em geral.
-
----
