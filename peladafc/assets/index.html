@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorteador de Pelada Torneio</title>
+    <!-- Importação do Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Poppins:wght@600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome para Ícones Profissionais -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/script.js" defer></script>
+</head>
+<body>
+
+    <header>
+        <h1><i class="fa-solid fa-futbol"></i> Sorteador de Pelada</h1>
+        <p>Múltiplos times, goleiros fixos e equilíbrio técnico real!</p>
+    </header>
+
+    <main class="container">
+        <!-- ABAS DE CADASTRO -->
+        <section class="card">
+            <h2><i class="fa-solid fa-user-plus"></i> Adicionar Jogadores</h2>
+            
+            <div class="tabs-container">
+                <button type="button" id="tab-btn-massa" class="tab-btn active" onclick="alternarAba('massa')">
+                    <i class="fa-brands fa-whatsapp"></i> Colar Lista do Whats
+                </button>
+                <button type="button" id="tab-btn-unico" class="tab-btn" onclick="alternarAba('unico')">
+                    <i class="fa-solid fa-user"></i> Individual
+                </button>
+            </div>
+
+            <!-- CADASTRO EM MASSA (WHATSAPP) -->
+            <div id="aba-massa" class="tab-content">
+                <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 10px;">
+                    Cole a lista do grupo! O sistema remove números (1., 2.), traços e marca automaticamente como goleiro se tiver <i>(gk)</i> ou <i>(goleiro)</i>.
+                </p>
+                <textarea id="texto-massa" rows="6" placeholder="Cole aqui, ex:&#10;1. Caça Rato&#10;2. Tafarel (Goleiro)&#10;3. Neymar&#10;4. Cristiano Ronaldo"></textarea>
+                <button type="button" onclick="processarListaMassa()" class="btn-primary" style="margin-top: 10px;">
+                    <i class="fa-solid fa-bolt"></i> Importar Todos da Lista
+                </button>
+            </div>
+
+            <!-- CADASTRO INDIVIDUAL -->
+            <div id="aba-unico" class="tab-content hidden">
+                <form id="form-jogador">
+                    <div class="form-group">
+                        <label for="nome"><i class="fa-solid fa-signature"></i> Nome do Craque:</label>
+                        <input type="text" id="nome" placeholder="Ex: Caça Rato">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-child-reaching"></i> Posição:</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="posicao" value="linha" checked> <i class="fa-solid fa-person-running"></i> Linha</label>
+                            <label><input type="radio" name="posicao" value="goleiro"> <i class="fa-solid fa-mitten"></i> Goleiro</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-chart-line"></i> Nível de Habilidade:</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="nivel" value="1" checked> Pereba</label>
+                            <label><input type="radio" name="nivel" value="2"> Bola Murcha</label>
+                            <label><input type="radio" name="nivel" value="3"> Craque</label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary"><i class="fa-solid fa-floppy-disk"></i> Salvar no Elenco</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- LISTA DE JOGADORES -->
+        <section class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <h2 style="margin-bottom: 0; border: none;"><i class="fa-solid fa-users"></i> Elenco Salvo (<span id="contador">0</span>)</h2>
+                <button type="button" onclick="abrirModalZerarElenco()" class="btn-deletar" style="font-size: 0.8rem;">
+                    <i class="fa-solid fa-trash-can"></i> Zerar Elenco
+                </button>
+            </div>
+            
+            <div style="display: flex; gap: 10px; margin-bottom: 15px; margin-top: 10px;">
+                <button type="button" onclick="marcarTodos(true)" class="btn-secundario"><i class="fa-solid fa-check-double"></i> Marcar Todos</button>
+                <button type="button" onclick="marcarTodos(false)" class="btn-secundario"><i class="fa-solid fa-xmark"></i> Desmarcar Todos</button>
+            </div>
+            
+            <p style="font-size: 0.85rem; color: #4a5568; margin-bottom: 10px;">Marque os presentes para o jogo:</p>
+            
+            <ul id="lista-jogadores"></ul>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px;">
+                <div class="form-group">
+                    <label for="qtd-times"><i class="fa-solid fa-shirt"></i> Quantos times?</label>
+                    <select id="qtd-times" class="select-custom">
+                        <option value="2" selected>2 Times</option>
+                        <option value="3">3 Times</option>
+                        <option value="4">4 Times</option>
+                        <option value="5">5 Times</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="limite-por-time"><i class="fa-solid fa-people-group"></i> Titulares na linha?</label>
+                    <input type="number" id="limite-por-time" class="select-custom" value="5" min="2" max="11">
+                </div>
+            </div>
+
+            <button id="btn-sortear" class="btn-success">
+                <i class="fa-solid fa-dice"></i> Sortear Presentes
+            </button>
+        </section>
+
+        <!-- RESULTADOS E GERENCIAMENTO EM TEMPO REAL -->
+        <section id="resultado" class="card hidden">
+            <h2><i class="fa-solid fa-trophy"></i> Times Formados</h2> 
+            
+            <div id="times-dinamicos-container" class="times-container"></div>
+
+            <!-- FILA GERAL DE ESPERA -->
+            <div id="bloco-espera" class="time-bloco" style="margin-top: 15px; border-top-color: #ff9800; display: none;">
+                <h3 style="color: #d97706;"><i class="fa-solid fa-clock-rotate-left"></i> Revezamento Geral / Próximos da Fila</h3>
+                <ul id="lista-espera-lista" style="margin-top: 10px;"></ul>
+            </div>
+
+            <!-- CONTROLADOR DE PRÓXIMO JOGO (QUEM GANHA FICA) -->
+            <div id="bloco-proximo-jogo" class="painel-partida hidden">
+                <h3><i class="fa-solid fa-arrows-spin"></i> Gerenciador de Partida</h3>
+                <p style="font-size: 0.85rem; color: #475569; margin-bottom: 10px;">Quem perdeu a partida atual?</p>
+                <div id="botoes-times-derrota" class="botoes-rotacao-grid"></div>
+            </div>
+
+            <button id="btn-whatsapp" class="btn-whats">
+                <i class="fa-brands fa-whatsapp"></i> Copiar para o WhatsApp
+            </button>
+        </section>
+    </main>
+
+    <!-- MODAIS PERSONALIZADOS -->
+    <div id="modal-alerta" class="modal-overlay hidden">
+        <div class="modal-card">
+            <h3 id="modal-alerta-titulo"><i class="fa-solid fa-circle-info"></i> Aviso</h3>
+            <p id="modal-alerta-mensagem">Mensagem de aviso aqui.</p>
+            <div class="modal-acoes">
+                <button type="button" class="btn-primary" style="width: 120px;" onclick="fecharAlerta()">Entendi</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-confirm" class="modal-overlay hidden">
+        <div class="modal-card">
+            <h3 style="color: #c62828;"><i class="fa-solid fa-triangle-exclamation"></i> Confirmar Exclusão</h3>
+            <p>Deseja realmente remover este jogador do elenco?</p>
+            <div class="modal-acoes">
+                <button type="button" class="btn-secundario" onclick="fecharModalExclusao()">Cancelar</button>
+                <button type="button" class="btn-deletar" onclick="confirmarExclusao()"><i class="fa-solid fa-trash"></i> Excluir</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-zerar" class="modal-overlay hidden">
+        <div class="modal-card">
+            <h3 style="color: #c62828;"><i class="fa-solid fa-burst"></i> Limpar Todo o Elenco</h3>
+            <p>Tem certeza? Isso apagará <b>TODOS</b> os jogadores cadastrados de uma só vez.</p>
+            <div class="modal-acoes">
+                <button type="button" class="btn-secundario" onclick="fecharModalZerar()">Cancelar</button>
+                <button type="button" class="btn-deletar" style="background: #c62828; color: #fff;" onclick="confirmarZerarElenco()"><i class="fa-solid fa-trash-can"></i> Sim, Limpar Tudo</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
