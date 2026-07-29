@@ -3,7 +3,7 @@ New-Item -Path "doc" -ItemType Directory -Force; Set-Content -Path "doc\DOCUMENT
 ## 1. CAPA E IDENTIFICAÇÃO DO PROJETO
 * **Nome do Sistema:** Sorteador de Pelada
 * **Slogan / Breve Descrição:** Monte times equilibrados e controle a artilharia da galera!
-* **Autores / Equipe:** [Seu Nome Completo]
+* **Autores / Equipe:** [Alessandro Henrique da Silva Santos]
 * **Curso / Disciplina:** Projeto Integrador — Front-End e CMS (UC15)
 * **Professor Orientador:** Evandro Vasconcelos
 * **Data / Semestre:** 2026.1
@@ -65,6 +65,7 @@ sorteador-de-pelada-UC15-TI/
 ├── js/
 │   └── script.js
 ├── doc/
+│    └──README.MD
 │   └── DOCUMENTO_TECNICO.md
-├── index.html
-└── README.md
+├── .NOJEKYLL
+└── index.html
