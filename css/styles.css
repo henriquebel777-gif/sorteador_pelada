@@ -501,3 +501,101 @@ ul {
     gap: 15px;
   }
 }
+/* --- ARTILHARIA PADRONIZADA COM O TEMA DO SITE --- */
+.artilharia-container {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.artilharia-container h2 {
+  color: #2e7d32;
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.artilharia-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.artilharia-form .input-group {
+  display: flex;
+  align-items: center;
+  background: #f4f6f8;
+  border: 1px solid #dcdfe3;
+  border-radius: 8px;
+  padding: 0 12px;
+  flex: 1;
+  min-width: 180px;
+}
+
+.artilharia-form .input-group.input-gols {
+  flex: 0.4;
+  min-width: 100px;
+}
+
+.artilharia-form .input-group i {
+  color: #6c757d;
+  margin-right: 8px;
+}
+
+.artilharia-form input {
+  width: 100%;
+  padding: 12px 0;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 0.95rem;
+}
+
+.artilharia-form button {
+  padding: 12px 20px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* LISTA DE ARTILHEIROS */
+.artilheiro-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: #f8f9fa;
+  border-left: 5px solid #2e7d32;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+}
+
+.artilheiro-gols {
+  font-weight: bold;
+  color: #2e7d32;
+  background: #e8f5e9;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+}
+
+/* RESPONSIVO PARA CELULAR */
+@media (max-width: 600px) {
+  .artilharia-form {
+    flex-direction: column;
+  }
+  
+  .artilharia-form .input-group,
+  .artilharia-form .input-group.input-gols,
+  .artilharia-form button {
+    width: 100%;
+    flex: none;
+  }
+}

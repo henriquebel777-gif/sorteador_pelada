@@ -173,16 +173,27 @@
             </div>
         </div>
     </div>
-<!-- SEÇÃO DE ARTILHARIA -->
+<!-- SEÇÃO DE ARTILHARIA (PADRONIZADA) -->
 <section class="artilharia-container">
-  <h2>🏆 Artilheiros da Pelada</h2>
-  <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-    <input type="text" id="nomeArtilheiro" placeholder="Nome do Jogador">
-    <input type="number" id="golsArtilheiro" placeholder="Gols" style="width: 100px;">
-    <button id="btnSalvarArtilheiro">Adicionar</button>
+  <h2><i class="fa-solid fa-trophy"></i> Artilheiros da Pelada</h2>
+  
+  <div class="artilharia-form">
+    <div class="input-group">
+      <i class="fa-solid fa-user"></i>
+      <input type="text" id="nomeArtilheiro" placeholder="Nome do Jogador">
+    </div>
+
+    <div class="input-group input-gols">
+      <i class="fa-solid fa-futbol"></i>
+      <input type="number" id="golsArtilheiro" placeholder="Gols" min="1" value="1">
+    </div>
+
+    <button id="btnSalvarArtilheiro" class="btn-primary">
+      <i class="fa-solid fa-plus"></i> Registrar Gols
+    </button>
   </div>
 
-  <div id="listaArtilheiros">
+  <div id="listaArtilheiros" class="artilharia-lista">
     <!-- Lista gerada dinamicamente pelo JS -->
   </div>
 </section>
