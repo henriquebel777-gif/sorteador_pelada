@@ -280,7 +280,6 @@ function atualizarInterfaceTimes() {
         
         let titularesHtml = time.jogadores.map((j, jogIdx) => {
             const iconePos = j.posicao === 'goleiro' ? 'fa-solid fa-mitten' : 'fa-solid fa-person-running';
-            // Se o time tiver revezamento e o jogador for de linha, exibe o botão de troca individual
             const btnTroca = (time.revezamento.length > 0 && j.posicao === 'linha') ? 
                 `<button class="btn-substituir" onclick="substituirJogador(${timeIdx}, ${jogIdx})" title="Enviar para revezamento e puxar o próximo"><i class="fa-solid fa-right-left"></i> Trocar</button>` : '';
             
@@ -306,7 +305,6 @@ function atualizarInterfaceTimes() {
         containerTimesDinamicos.appendChild(blocoHtml);
     });
 
-    // Atualiza Lista de Espera Geral se houver
     if (blocoEspera && listaEspera) {
         if (ultimoEspera.length > 0) {
             blocoEspera.style.display = "block";
@@ -321,7 +319,6 @@ function atualizarInterfaceTimes() {
         }
     }
 
-    // Atualiza Painel de Gerenciamento da Partida (Rotação quem perdeu sai)
     if (blocoProximoJogo && botoesTimesDerrota) {
         if (timesSorteados.length > 2) {
             blocoProximoJogo.classList.remove('hidden');
@@ -344,11 +341,9 @@ window.substituirJogador = function(timeIndex, jogadorIndex) {
     let time = timesSorteados[timeIndex];
     if (!time || time.revezamento.length === 0) return;
 
-    // Remove quem saiu do time titular e envia para o fim do revezamento
     let saindo = time.jogadores.splice(jogadorIndex, 1)[0];
     time.revezamento.push(saindo);
 
-    // Puxa o primeiro da fila do revezamento para o time titular
     let entrando = time.revezamento.shift();
     time.jogadores.push(entrando);
 
@@ -360,7 +355,6 @@ window.substituirJogador = function(timeIndex, jogadorIndex) {
 window.rotacionarTimePerdedor = function(perdedorIdx) {
     if (timesSorteados.length <= 2) return;
 
-    // Move o time que perdeu para o final da fila de times
     let timePerdedor = timesSorteados.splice(perdedorIdx, 1)[0];
     timesSorteados.push(timePerdedor);
 
@@ -432,7 +426,6 @@ if (btnSortear) {
                 }
             });
 
-            // Reorganiza a ordem alfabética dos nomes dos times após o equilíbrio
             timesSorteados.sort((a, b) => a.id - b.id);
 
             atualizarInterfaceTimes();
@@ -483,3 +476,71 @@ if (btnWhatsapp) {
 }
 
 renderizarJogadores();
+
+// ==========================================
+// --- MÓDULO DE ARTILHARIA DA PELADA ---
+// ==========================================
+let artilheiros = JSON.parse(localStorage.getItem('pelada_artilheiros')) || [];
+
+const btnSalvarArtilheiro = document.getElementById('btnSalvarArtilheiro');
+if (btnSalvarArtilheiro) {
+    btnSalvarArtilheiro.addEventListener('click', function () {
+        const inputNomeArt = document.getElementById('nomeArtilheiro');
+        const inputGolsArt = document.getElementById('golsArtilheiro');
+
+        const nome = inputNomeArt ? inputNomeArt.value.trim() : '';
+        const gols = inputGolsArt ? parseInt(inputGolsArt.value) : 0;
+
+        if (!nome || isNaN(gols) || gols <= 0) {
+            mostrarAlerta("Preencha o nome do jogador e uma quantidade válida de gols!", "Dados Inválidos", "fa-solid fa-triangle-exclamation");
+            return;
+        }
+
+        const jogadorExistente = artilheiros.find(a => a.nome.toLowerCase() === nome.toLowerCase());
+        if (jogadorExistente) {
+            jogadorExistente.gols += gols;
+        } else {
+            artilheiros.push({ nome, gols });
+        }
+
+        artilheiros.sort((a, b) => b.gols - a.gols);
+        localStorage.setItem('pelada_artilheiros', JSON.stringify(artilheiros));
+
+        atualizarListaArtilheiros();
+
+        if (inputNomeArt) inputNomeArt.value = '';
+        if (inputGolsArt) inputGolsArt.value = '';
+        
+        mostrarAlerta(`Gols registrados para ${nome} com sucesso!`, "Artilharia Atualizada", "fa-solid fa-trophy");
+    });
+}
+
+function atualizarListaArtilheiros() {
+    const container = document.getElementById('listaArtilheiros');
+    if (!container) return;
+
+    container.innerHTML = '';
+
+    if (artilheiros.length === 0) {
+        container.innerHTML = '<p style="text-align:center; color:#777; padding:10px;">Nenhum gol registrado ainda!</p>';
+        return;
+    }
+
+    artilheiros.forEach((jogador, index) => {
+        const item = document.createElement('div');
+        item.className = 'artilheiro-item';
+        
+        let medalha = `#${index + 1}`;
+        if (index === 0) medalha = '🥇';
+        else if (index === 1) medalha = '🥈';
+        else if (index === 2) medalha = '🥉';
+
+        item.innerHTML = `
+            <span><strong>${medalha}</strong> ${jogador.nome}</span>
+            <span class="artilheiro-gols">⚽ ${jogador.gols} ${jogador.gols === 1 ? 'gol' : 'gols'}</span>
+        `;
+        container.appendChild(item);
+    });
+}
+
+atualizarListaArtilheiros();
