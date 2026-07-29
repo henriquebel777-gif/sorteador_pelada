@@ -478,7 +478,7 @@ if (btnWhatsapp) {
 renderizarJogadores();
 
 // ==========================================
-// --- MÓDULO DE ARTILHARIA DA PELADA ---
+// --- MÓDULO DE ARTILHARIA (ESTILO RANKING) ---
 // ==========================================
 let artilheiros = JSON.parse(localStorage.getItem('pelada_artilheiros')) || [];
 
@@ -491,9 +491,9 @@ if (btnSalvarArtilheiro) {
         const nome = inputNomeArt ? inputNomeArt.value.trim() : '';
         const gols = inputGolsArt ? parseInt(inputGolsArt.value) : 0;
 
-        // 1. BLOQUEIA NÚMEROS NEGATIVOS E ZERO
+        // VALIDAÇÃO: Impede valores vazios, zero e negativos
         if (!nome || isNaN(gols) || gols <= 0) {
-            mostrarAlerta("Preencha o nome do jogador e informe pelo menos 1 gol!", "Dados Inválidos", "fa-solid fa-triangle-exclamation");
+            mostrarAlerta("Preencha o nome e informe pelo menos 1 gol validos!", "Dados Inválidos", "fa-solid fa-triangle-exclamation");
             return;
         }
 
@@ -510,17 +510,18 @@ if (btnSalvarArtilheiro) {
         atualizarListaArtilheiros();
 
         if (inputNomeArt) inputNomeArt.value = '';
-        if (inputGolsArt) inputGolsArt.value = '1'; // Reseta voltando para 1 gol padrão
+        if (inputGolsArt) inputGolsArt.value = '1';
         
         mostrarAlerta(`Gols registrados para ${nome} com sucesso!`, "Artilharia Atualizada", "fa-solid fa-trophy");
     });
 }
 
-// 2. FUNÇÃO PARA REMOVER UM ARTILHEIRO DA LISTA
+// LÓGICA DE EXCLUSÃO DE JOGADOR DA ARTILHARIA
 window.removerArtilheiro = function(index) {
     artilheiros.splice(index, 1);
     localStorage.setItem('pelada_artilheiros', JSON.stringify(artilheiros));
     atualizarListaArtilheiros();
+    mostrarAlerta("Artilheiro removido da tabela!", "Removido", "fa-solid fa-trash");
 };
 
 function atualizarListaArtilheiros() {
@@ -530,30 +531,37 @@ function atualizarListaArtilheiros() {
     container.innerHTML = '';
 
     if (artilheiros.length === 0) {
-        container.innerHTML = '<p style="text-align:center; color:#777; padding:10px;">Nenhum gol registrado ainda!</p>';
+        container.innerHTML = '<p style="text-align:center; color:#777; padding:15px;">Nenhum gol registrado ainda!</p>';
         return;
     }
 
     artilheiros.forEach((jogador, index) => {
-        const item = document.createElement('div');
-        item.className = 'artilheiro-item';
-        
-        let medalha = `#${index + 1}`;
-        if (index === 0) medalha = '🥇';
-        else if (index === 1) medalha = '🥈';
-        else if (index === 2) medalha = '🥉';
+        const card = document.createElement('div');
+        card.className = 'ranking-card';
 
-        // Inclui o botão de excluir (lixeira) ao lado do nome/gols
-        item.innerHTML = `
-            <span><strong>${medalha}</strong> ${jogador.nome}</span>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span class="artilheiro-gols">⚽ ${jogador.gols} ${jogador.gols === 1 ? 'gol' : 'gols'}</span>
-                <button class="btn-deletar" onclick="removerArtilheiro(${index})" title="Excluir Artilheiro">
-                    <i class="fa-solid fa-trash"></i>
+        // Classes especiais para top 3
+        let classePosicao = 'ranking-posicao';
+        if (index === 0) classePosicao += ' pos-1';
+        else if (index === 1) classePosicao += ' pos-2';
+        else if (index === 2) classePosicao += ' pos-3';
+
+        card.innerHTML = `
+            <div class="${classePosicao}">${index + 1}</div>
+            
+            <div class="ranking-badge-craque">
+                <i class="fa-solid fa-shirt"></i>
+                <span>${jogador.nome}</span>
+            </div>
+
+            <div class="ranking-info-gols">
+                <span class="gols-num">⚽ ${jogador.gols}</span>
+                <button class="btn-deletar-artilheiro" onclick="removerArtilheiro(${index})" title="Excluir do Ranking">
+                    <i class="fa-solid fa-trash-can"></i>
                 </button>
             </div>
         `;
-        container.appendChild(item);
+
+        container.appendChild(card);
     });
 }
 

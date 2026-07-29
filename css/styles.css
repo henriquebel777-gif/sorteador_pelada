@@ -270,7 +270,6 @@ ul {
     margin-right: 6px;
 }
 
-/* BOTÃO DE SUBSTITUIÇÃO NA LINHA DO JOGADOR */
 .btn-substituir {
     background: #e2e8f0;
     color: #334155;
@@ -287,7 +286,6 @@ ul {
     color: #fff;
 }
 
-/* PAINEL DE GERENCIAMENTO DE PARTIDA (PRÓXIMO JOGO) */
 .painel-partida {
     margin-top: 20px;
     padding: 15px;
@@ -358,7 +356,6 @@ ul {
     color: #ffffff;
 }
 
-/* ABAS DE CADASTRO */
 .tabs-container {
     display: flex;
     gap: 10px;
@@ -381,7 +378,6 @@ ul {
     border-color: #2e7d32;
 }
 
-/* ESTILIZAÇÃO DOS MODAIS PERSONALIZADOS */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -429,173 +425,198 @@ ul {
     from { opacity: 0; transform: scale(0.9); }
     to { opacity: 1; transform: scale(1); }
 }
-/* --- ESTILOS DE ANIMAÇÃO E SPINNER --- */
+
 .spinner {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  border: 3px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  border-top-color: #fff;
-  animation: spin 0.8s linear infinite;
-  margin-right: 8px;
-  vertical-align: middle;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 0.8s linear infinite;
+    margin-right: 8px;
+    vertical-align: middle;
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+    to { transform: rotate(360deg); }
 }
 
 .sorteando-overlay {
-  opacity: 0.6;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
+    opacity: 0.6;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
 }
 
-/* --- SEÇÃO DE ARTILHEIROS --- */
+/* ==========================================
+   --- ARTILHARIA (ESTILO RANKING OFICIAL) ---
+   ========================================== */
 .artilharia-container {
-  margin-top: 30px;
-  padding: 20px;
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
-.artilheiro-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 14px;
-  margin-bottom: 8px;
-  background-color: #f8f9fa;
-  border-left: 4px solid #28a745;
-  border-radius: 6px;
-}
-
-.artilheiro-gols {
-  font-weight: bold;
-  color: #28a745;
-}
-
-/* --- RESPONSIVIDADE PARA CELULAR (MOBILE FIRST) --- */
-@media (max-width: 768px) {
-  body {
-    padding: 10px;
-  }
-
-  .container {
-    width: 100%;
-    padding: 15px;
-  }
-
-  button, input, select {
-    width: 100%;
-    min-height: 48px; /* Altura ideal para toque no celular */
-    font-size: 16px;
-    margin-bottom: 10px;
-  }
-
-  .times-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-}
-/* --- ARTILHARIA PADRONIZADA COM O TEMA DO SITE --- */
-.artilharia-container {
-  background: #ffffff;
-  padding: 20px;
-  border-radius: 12px;
-  margin-top: 25px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    margin-top: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
 .artilharia-container h2 {
-  color: #2e7d32;
-  font-size: 1.3rem;
-  margin-bottom: 15px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+    color: #2e7d32;
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 2px solid #f0f2f5;
+    padding-bottom: 8px;
 }
 
 .artilharia-form {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
 }
 
 .artilharia-form .input-group {
-  display: flex;
-  align-items: center;
-  background: #f4f6f8;
-  border: 1px solid #dcdfe3;
-  border-radius: 8px;
-  padding: 0 12px;
-  flex: 1;
-  min-width: 180px;
+    display: flex;
+    align-items: center;
+    background: #f4f6f8;
+    border: 1px solid #dcdfe3;
+    border-radius: 8px;
+    padding: 0 12px;
+    flex: 1;
+    min-width: 160px;
 }
 
 .artilharia-form .input-group.input-gols {
-  flex: 0.4;
-  min-width: 100px;
+    flex: 0.3;
+    min-width: 90px;
 }
 
 .artilharia-form .input-group i {
-  color: #6c757d;
-  margin-right: 8px;
+    color: #6c757d;
+    margin-right: 8px;
 }
 
 .artilharia-form input {
-  width: 100%;
-  padding: 12px 0;
-  border: none;
-  background: transparent;
-  outline: none;
-  font-size: 0.95rem;
+    width: 100%;
+    padding: 12px 0;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 0.95rem;
 }
 
 .artilharia-form button {
-  padding: 12px 20px;
-  font-weight: bold;
-  border-radius: 8px;
-  cursor: pointer;
-  white-space: nowrap;
+    width: auto;
+    padding: 12px 20px;
+    white-space: nowrap;
 }
 
-/* LISTA DE ARTILHEIROS */
-.artilheiro-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 16px;
-  background: #f8f9fa;
-  border-left: 5px solid #2e7d32;
-  border-radius: 6px;
-  margin-bottom: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.02);
-}
-
-.artilheiro-gols {
-  font-weight: bold;
-  color: #2e7d32;
-  background: #e8f5e9;
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 0.9rem;
-}
-
-/* RESPONSIVO PARA CELULAR */
-@media (max-width: 600px) {
-  .artilharia-form {
+/* LISTA DE CARDS (RANKING) */
+.artilharia-ranking {
+    display: flex;
     flex-direction: column;
-  }
-  
-  .artilharia-form .input-group,
-  .artilharia-form .input-group.input-gols,
-  .artilharia-form button {
-    width: 100%;
-    flex: none;
-  }
+    gap: 10px;
+}
+
+.ranking-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 30px;
+    padding: 6px 12px 6px 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    transition: transform 0.2s ease;
+}
+
+.ranking-card:hover {
+    transform: translateY(-2px);
+}
+
+.ranking-posicao {
+    width: 36px;
+    height: 36px;
+    background-color: #111111;
+    color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.95rem;
+    flex-shrink: 0;
+}
+
+/* DESTAQUES TOP 3 (MEDALHAS) */
+.pos-1 { background-color: #ffd700; color: #000; } /* Ouro */
+.pos-2 { background-color: #c0c0c0; color: #000; } /* Prata */
+.pos-3 { background-color: #cd7f32; color: #fff; } /* Bronze */
+
+.ranking-badge-craque {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #2e7d32, #1b5e20);
+    color: white;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    flex: 1;
+    margin: 0 12px;
+}
+
+.ranking-info-gols {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.gols-num {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #111;
+}
+
+.btn-deletar-artilheiro {
+    background: transparent;
+    border: none;
+    color: #d32f2f;
+    cursor: pointer;
+    padding: 6px 10px;
+    font-size: 1rem;
+    border-radius: 50%;
+    width: auto;
+    transition: background 0.2s;
+}
+
+.btn-deletar-artilheiro:hover {
+    background: #ffebee;
+}
+
+/* RESPONSIVIDADE MOBILE */
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+
+    .artilharia-form {
+        flex-direction: column;
+    }
+    
+    .artilharia-form .input-group,
+    .artilharia-form .input-group.input-gols,
+    .artilharia-form button {
+        width: 100%;
+        flex: none;
+    }
+
+    .times-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
 }
