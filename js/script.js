@@ -590,5 +590,4 @@ function atualizarListaArtilheiros() {
 
 // Inicializa o select e a lista ao carregar a página
 carregarSelectArtilheiros();
-atualizarListaArtilheiros();/ /   t e s t e   g i t  
- 
+atualizarListaArtilheiros();
