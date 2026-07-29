@@ -478,22 +478,50 @@ if (btnWhatsapp) {
 renderizarJogadores();
 
 // ==========================================
-// --- MÓDULO DE ARTILHARIA (ESTILO RANKING) ---
+// --- MÓDULO DE ARTILHARIA (RANKING) ---
 // ==========================================
 let artilheiros = JSON.parse(localStorage.getItem('pelada_artilheiros')) || [];
+
+// Preenche o Select com os Jogadores Cadastrados
+function carregarSelectArtilheiros() {
+    const select = document.getElementById('selectArtilheiro');
+    if (!select) return;
+
+    select.innerHTML = '<option value="">Selecione o Craque...</option>';
+    
+    // Pega os jogadores da lista principal
+    jogadores.forEach(j => {
+        const option = document.createElement('option');
+        option.value = j.nome;
+        option.textContent = j.nome;
+        select.appendChild(option);
+    });
+}
+
+// Chame essa função dentro da sua renderizarJogadores() para manter atualizado sempre que adicionar/remover jogador
+const renderOriginal = renderizarJogadores;
+renderizarJogadores = function() {
+    renderOriginal();
+    carregarSelectArtilheiros();
+};
 
 const btnSalvarArtilheiro = document.getElementById('btnSalvarArtilheiro');
 if (btnSalvarArtilheiro) {
     btnSalvarArtilheiro.addEventListener('click', function () {
-        const inputNomeArt = document.getElementById('nomeArtilheiro');
+        const selectArt = document.getElementById('selectArtilheiro');
         const inputGolsArt = document.getElementById('golsArtilheiro');
 
-        const nome = inputNomeArt ? inputNomeArt.value.trim() : '';
+        const nome = selectArt ? selectArt.value : '';
         const gols = inputGolsArt ? parseInt(inputGolsArt.value) : 0;
 
-        // VALIDAÇÃO: Impede valores vazios, zero e negativos
-        if (!nome || isNaN(gols) || gols <= 0) {
-            mostrarAlerta("Preencha o nome e informe pelo menos 1 gol validos!", "Dados Inválidos", "fa-solid fa-triangle-exclamation");
+        // VALIDA SE SELECIONOU UM JOGADOR E SE OS GOLS SÃO VÁLIDOS
+        if (!nome) {
+            alert("Por favor, selecione um jogador da lista!");
+            return;
+        }
+
+        if (isNaN(gols) || gols <= 0) {
+            alert("Informe pelo menos 1 gol válido!");
             return;
         }
 
@@ -509,19 +537,15 @@ if (btnSalvarArtilheiro) {
 
         atualizarListaArtilheiros();
 
-        if (inputNomeArt) inputNomeArt.value = '';
+        if (selectArt) selectArt.value = '';
         if (inputGolsArt) inputGolsArt.value = '1';
-        
-        mostrarAlerta(`Gols registrados para ${nome} com sucesso!`, "Artilharia Atualizada", "fa-solid fa-trophy");
     });
 }
 
-// LÓGICA DE EXCLUSÃO DE JOGADOR DA ARTILHARIA
 window.removerArtilheiro = function(index) {
     artilheiros.splice(index, 1);
     localStorage.setItem('pelada_artilheiros', JSON.stringify(artilheiros));
     atualizarListaArtilheiros();
-    mostrarAlerta("Artilheiro removido da tabela!", "Removido", "fa-solid fa-trash");
 };
 
 function atualizarListaArtilheiros() {
@@ -539,7 +563,6 @@ function atualizarListaArtilheiros() {
         const card = document.createElement('div');
         card.className = 'ranking-card';
 
-        // Classes especiais para top 3
         let classePosicao = 'ranking-posicao';
         if (index === 0) classePosicao += ' pos-1';
         else if (index === 1) classePosicao += ' pos-2';
@@ -565,4 +588,6 @@ function atualizarListaArtilheiros() {
     });
 }
 
+// Inicializa o select e a lista ao carregar a página
+carregarSelectArtilheiros();
 atualizarListaArtilheiros();
