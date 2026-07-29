@@ -491,8 +491,9 @@ if (btnSalvarArtilheiro) {
         const nome = inputNomeArt ? inputNomeArt.value.trim() : '';
         const gols = inputGolsArt ? parseInt(inputGolsArt.value) : 0;
 
+        // 1. BLOQUEIA NÚMEROS NEGATIVOS E ZERO
         if (!nome || isNaN(gols) || gols <= 0) {
-            mostrarAlerta("Preencha o nome do jogador e uma quantidade válida de gols!", "Dados Inválidos", "fa-solid fa-triangle-exclamation");
+            mostrarAlerta("Preencha o nome do jogador e informe pelo menos 1 gol!", "Dados Inválidos", "fa-solid fa-triangle-exclamation");
             return;
         }
 
@@ -509,11 +510,18 @@ if (btnSalvarArtilheiro) {
         atualizarListaArtilheiros();
 
         if (inputNomeArt) inputNomeArt.value = '';
-        if (inputGolsArt) inputGolsArt.value = '';
+        if (inputGolsArt) inputGolsArt.value = '1'; // Reseta voltando para 1 gol padrão
         
         mostrarAlerta(`Gols registrados para ${nome} com sucesso!`, "Artilharia Atualizada", "fa-solid fa-trophy");
     });
 }
+
+// 2. FUNÇÃO PARA REMOVER UM ARTILHEIRO DA LISTA
+window.removerArtilheiro = function(index) {
+    artilheiros.splice(index, 1);
+    localStorage.setItem('pelada_artilheiros', JSON.stringify(artilheiros));
+    atualizarListaArtilheiros();
+};
 
 function atualizarListaArtilheiros() {
     const container = document.getElementById('listaArtilheiros');
@@ -535,9 +543,15 @@ function atualizarListaArtilheiros() {
         else if (index === 1) medalha = '🥈';
         else if (index === 2) medalha = '🥉';
 
+        // Inclui o botão de excluir (lixeira) ao lado do nome/gols
         item.innerHTML = `
             <span><strong>${medalha}</strong> ${jogador.nome}</span>
-            <span class="artilheiro-gols">⚽ ${jogador.gols} ${jogador.gols === 1 ? 'gol' : 'gols'}</span>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="artilheiro-gols">⚽ ${jogador.gols} ${jogador.gols === 1 ? 'gol' : 'gols'}</span>
+                <button class="btn-deletar" onclick="removerArtilheiro(${index})" title="Excluir Artilheiro">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            </div>
         `;
         container.appendChild(item);
     });
