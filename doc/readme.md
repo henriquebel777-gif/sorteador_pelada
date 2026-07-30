@@ -17,7 +17,7 @@ Aplicação web para sortear times equilibrados de futebol amador por nível té
 
 ##  Documentação Técnica (DADS)
 ### 📄 Documentação Técnica (DADS)
+### 📄 Documentação Técnica (DADS)
 O relatório técnico completo com requisitos, diagramas, guia de estilo UI/UX e comprovantes de validação W3C encontra-se disponível no [Google Docs](https://docs.google.com/document/d/1lAx7tGexW4a1OWQVf4BXKgd97S6yvT3DvxT3YfBn-EI/edit?usp=sharing).
-
 ##  Vídeo de Demonstração (Pitch)
 - **Link do Vídeo:** [COLE O SEU LINK DO PITCH AQUI]
