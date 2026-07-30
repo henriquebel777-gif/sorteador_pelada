@@ -16,7 +16,7 @@ Aplicação web para sortear times equilibrados de futebol amador por nível té
 - **Git & GitHub** (Versionamento)
 
 ##  Documentação Técnica (DADS)
-O relatório técnico completo com requisitos, diagrama e relatório de testes W3C encontra-se na pasta [`/doc`](./doc/DOCUMENTO_TECNICO.md).
+O relatório técnico completo com requisitos, diagrama e relatório de testes W3C encontra-se na pasta [`/doc`](./doc/documento_tecnico.md).
 
 ##  Vídeo de Demonstração (Pitch)
 - **Link do Vídeo:** [COLE O SEU LINK DO PITCH AQUI]
