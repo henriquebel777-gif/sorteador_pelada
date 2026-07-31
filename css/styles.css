@@ -448,9 +448,6 @@ ul {
     transition: opacity 0.3s ease;
 }
 
-/* ==========================================
-   --- ARTILHARIA (ESTILO RANKING OFICIAL) ---
-   ========================================== */
 .artilharia-container {
     background: #ffffff;
     padding: 20px;
@@ -513,7 +510,6 @@ ul {
     white-space: nowrap;
 }
 
-/* LISTA DE CARDS (RANKING) */
 .artilharia-ranking {
     display: flex;
     flex-direction: column;
@@ -550,10 +546,9 @@ ul {
     flex-shrink: 0;
 }
 
-/* DESTAQUES TOP 3 (MEDALHAS) */
-.pos-1 { background-color: #ffd700; color: #000; } /* Ouro */
-.pos-2 { background-color: #c0c0c0; color: #000; } /* Prata */
-.pos-3 { background-color: #cd7f32; color: #fff; } /* Bronze */
+.pos-1 { background-color: #ffd700; color: #000; } 
+.pos-2 { background-color: #c0c0c0; color: #000; } 
+.pos-3 { background-color: #cd7f32; color: #fff; } 
 
 .ranking-badge-craque {
     display: flex;
@@ -597,7 +592,6 @@ ul {
     background: #ffebee;
 }
 
-/* RESPONSIVIDADE MOBILE */
 @media (max-width: 600px) {
     body {
         padding: 10px;
