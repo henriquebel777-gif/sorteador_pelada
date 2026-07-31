@@ -21,7 +21,7 @@ let indexParaExcluir = null;
 
 const CORES_TIMES = ['#4caf50', '#2196f3', '#9c27b0', '#ff9800', '#e91e63'];
 
-// --- SISTEMA DE ALERTA PERSONALIZADO ---
+
 window.mostrarAlerta = function(mensagem, titulo = "💡 Aviso", icone = "fa-solid fa-circle-info") {
     const modal = document.getElementById('modal-alerta');
     const elTitulo = document.getElementById('modal-alerta-titulo');
@@ -39,7 +39,7 @@ window.fecharAlerta = function() {
     if (modal) modal.classList.add('hidden');
 };
 
-// --- CONTROLE DAS ABAS ---
+
 window.alternarAba = function(aba) {
     const btnMassa = document.getElementById('tab-btn-massa');
     const btnUnico = document.getElementById('tab-btn-unico');
@@ -59,7 +59,7 @@ window.alternarAba = function(aba) {
     }
 };
 
-// --- IMPORTAÇÃO EM MASSA DO WHATSAPP ---
+
 window.processarListaMassa = function() {
     const textarea = document.getElementById('texto-massa');
     if (!textarea) return;
@@ -105,7 +105,7 @@ window.processarListaMassa = function() {
     mostrarAlerta(`${adicionados} jogador(es) importados com sucesso!`, "Sucesso", "fa-solid fa-circle-check");
 };
 
-// --- CONTROLE DE ZERAR ELENCO COMPLETO ---
+
 window.abrirModalZerarElenco = function() {
     if (jogadores.length === 0) {
         mostrarAlerta("O elenco já está totalmente vazio!", "Lista Vazia", "fa-solid fa-triangle-exclamation");
@@ -204,7 +204,7 @@ window.editarJogador = function(index) {
     if(inputNome) inputNome.focus();
 };
 
-// --- EXCLUSÃO ÚNICA ---
+
 window.removerJogador = function(index) {
     indexParaExcluir = index;
     const modal = document.getElementById('modal-confirm');
@@ -268,7 +268,6 @@ if (form) {
     });
 }
 
-// --- RENDERIZAÇÃO DOS TIMES FORMADOS E CONTROLES EM TEMPO REAL ---
 function atualizarInterfaceTimes() {
     containerTimesDinamicos.innerHTML = '';
     
@@ -351,7 +350,7 @@ window.substituirJogador = function(timeIndex, jogadorIndex) {
     mostrarAlerta(`${saindo.nome} foi para o banco. ${entrando.nome} entrou em campo!`, "Substituição Realizada", "fa-solid fa-right-left");
 };
 
-// FUNCIONALIDADE B: ROTACIONAR TIME PERDEDOR (QUEM GANHA FICA)
+
 window.rotacionarTimePerdedor = function(perdedorIdx) {
     if (timesSorteados.length <= 2) return;
 
@@ -477,19 +476,17 @@ if (btnWhatsapp) {
 
 renderizarJogadores();
 
-// ==========================================
-// --- MÓDULO DE ARTILHARIA (RANKING) ---
-// ==========================================
+
 let artilheiros = JSON.parse(localStorage.getItem('pelada_artilheiros')) || [];
 
-// Preenche o Select com os Jogadores Cadastrados
+
 function carregarSelectArtilheiros() {
     const select = document.getElementById('selectArtilheiro');
     if (!select) return;
 
     select.innerHTML = '<option value="">Selecione o Craque...</option>';
     
-    // Pega os jogadores da lista principal
+    
     jogadores.forEach(j => {
         const option = document.createElement('option');
         option.value = j.nome;
@@ -498,7 +495,6 @@ function carregarSelectArtilheiros() {
     });
 }
 
-// Chame essa função dentro da sua renderizarJogadores() para manter atualizado sempre que adicionar/remover jogador
 const renderOriginal = renderizarJogadores;
 renderizarJogadores = function() {
     renderOriginal();
@@ -514,7 +510,6 @@ if (btnSalvarArtilheiro) {
         const nome = selectArt ? selectArt.value : '';
         const gols = inputGolsArt ? parseInt(inputGolsArt.value) : 0;
 
-        // VALIDA SE SELECIONOU UM JOGADOR E SE OS GOLS SÃO VÁLIDOS
         if (!nome) {
             alert("Por favor, selecione um jogador da lista!");
             return;
