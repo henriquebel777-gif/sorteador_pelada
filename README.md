@@ -19,9 +19,8 @@ Aplicação web para sortear times equilibrados de futebol amador por nível té
 O relatório técnico completo com requisitos, diagramas, guia de estilo UI/UX e comprovantes de validação W3C encontra-se disponível no [Google Docs](https://docs.google.com/document/d/1lAx7tGexW4a1OWQVf4BXKgd97S6yvT3DvxT3YfBn-EI/edit?usp=sharing).
 ##  Vídeo de Demonstração (Pitch)
 - **Link do Vídeo:** [COLE O SEU LINK DO PITCH AQUI]
----
 
-## 🔗 Links Importantes
+##  Links Importantes
 
 - **🌐 Site em Execução (GitHub Pages / Vercel):** [Clique aqui para acessar o site](https://henriquebel777-gif.github.io/sorteador_pelada/)
 - **💻 Repositório do Código (GitHub):** [https://henriquebel777-gif.github.io/sorteador_pelada/](https://github.com/henriquebel777-gif/sorteador_pelada)
