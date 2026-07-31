@@ -4,12 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sorteador de Pelada Torneio</title>
-    <!-- Importação do Google Fonts -->
+   
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Poppins:wght@600;700;900&display=swap" rel="stylesheet">
     
-    <!-- Font Awesome para Ícones Profissionais -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <link rel="stylesheet" href="css/styles.css">
@@ -23,7 +22,7 @@
     </header>
 
     <main class="container">
-        <!-- ABAS DE CADASTRO -->
+    
         <section class="card">
             <h2><i class="fa-solid fa-user-plus"></i> Adicionar Jogadores</h2>
             
@@ -47,7 +46,7 @@
                 </button>
             </div>
 
-            <!-- CADASTRO INDIVIDUAL -->
+         
             <div id="aba-unico" class="tab-content hidden">
                 <form id="form-jogador">
                     <div class="form-group">
@@ -77,7 +76,7 @@
             </div>
         </section>
 
-        <!-- LISTA DE JOGADORES -->
+       
         <section class="card">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                 <h2 style="margin-bottom: 0; border: none;"><i class="fa-solid fa-users"></i> Elenco Salvo (<span id="contador">0</span>)</h2>
@@ -116,19 +115,16 @@
             </button>
         </section>
 
-        <!-- RESULTADOS E GERENCIAMENTO EM TEMPO REAL -->
         <section id="resultado" class="card hidden">
             <h2><i class="fa-solid fa-trophy"></i> Times Formados</h2> 
             
             <div id="times-dinamicos-container" class="times-container"></div>
 
-            <!-- FILA GERAL DE ESPERA -->
             <div id="bloco-espera" class="time-bloco" style="margin-top: 15px; border-top-color: #ff9800; display: none;">
                 <h3 style="color: #d97706;"><i class="fa-solid fa-clock-rotate-left"></i> Revezamento Geral / Próximos da Fila</h3>
                 <ul id="lista-espera-lista" style="margin-top: 10px;"></ul>
             </div>
 
-            <!-- CONTROLADOR DE PRÓXIMO JOGO (QUEM GANHA FICA) -->
             <div id="bloco-proximo-jogo" class="painel-partida hidden">
                 <h3><i class="fa-solid fa-arrows-spin"></i> Gerenciador de Partida</h3>
                 <p style="font-size: 0.85rem; color: #475569; margin-bottom: 10px;">Quem perdeu a partida atual?</p>
@@ -141,7 +137,7 @@
         </section>
     </main>
 
-    <!-- MODAIS PERSONALIZADOS -->
+  
     <div id="modal-alerta" class="modal-overlay hidden">
         <div class="modal-card">
             <h3 id="modal-alerta-titulo"><i class="fa-solid fa-circle-info"></i> Aviso</h3>
@@ -173,7 +169,7 @@
             </div>
         </div>
     </div>
-<!-- SEÇÃO DE ARTILHARIA (ESTILO RANKING OFICIAL) -->
+
 <section class="artilharia-container">
   <h2><i class="fa-solid fa-trophy"></i> Artilheiros da Pelada</h2>
   
@@ -195,7 +191,7 @@
   </div>
 
   <div id="listaArtilheiros" class="artilharia-ranking">
-    <!-- Cards de artilheiro gerados via JS -->
+ 
   </div>
 </section>
 </body>
