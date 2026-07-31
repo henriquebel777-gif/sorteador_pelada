@@ -23,6 +23,6 @@ O relatório técnico completo com requisitos, diagramas, guia de estilo UI/UX e
 
 ## 🔗 Links Importantes
 
-- **🌐 Site em Execução (GitHub Pages / Vercel):** [Clique aqui para acessar o site](https://henriquebel777-gif.github.io/sorteador_pelada/)
+- **🌐 Site em Execução (GitHub Pages / Vercel):** [Clique aqui para acessar o site](https://github.com/henriquebel777-gif/sorteador_pelada)
 - **💻 Repositório do Código (GitHub):** [https://henriquebel777-gif.github.io/sorteador_pelada/](https://github.com/henriquebel777-gif/sorteador_pelada)
 - **📄 Documentação Técnica (Google Docs):** [Clique aqui para acessar o documento](https://docs.google.com/document/d/1lAx7tGexW4a1OWQVf4BXKgd97S6yvT3DvxT3YfBn-EI/edit?usp=sharing)
