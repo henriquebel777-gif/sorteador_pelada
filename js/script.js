@@ -14,6 +14,7 @@ const blocoProximoJogo = document.getElementById('bloco-proximo-jogo');
 const botoesTimesDerrota = document.getElementById('botoes-times-derrota');
 
 let jogadores = JSON.parse(localStorage.getItem('pelada_jogadores')) || [];
+let artilheiros = JSON.parse(localStorage.getItem('pelada_artilheiros')) || [];
 let timesSorteados = [];
 let ultimoEspera = [];
 let indexEmEdicao = null; 
@@ -21,7 +22,7 @@ let indexParaExcluir = null;
 
 const CORES_TIMES = ['#4caf50', '#2196f3', '#9c27b0', '#ff9800', '#e91e63'];
 
-
+// --- MODAL DE ALERTA PERSONALIZADO ---
 window.mostrarAlerta = function(mensagem, titulo = "💡 Aviso", icone = "fa-solid fa-circle-info") {
     const modal = document.getElementById('modal-alerta');
     const elTitulo = document.getElementById('modal-alerta-titulo');
@@ -39,7 +40,7 @@ window.fecharAlerta = function() {
     if (modal) modal.classList.add('hidden');
 };
 
-
+// --- NAVEGAÇÃO DE ABAS ---
 window.alternarAba = function(aba) {
     const btnMassa = document.getElementById('tab-btn-massa');
     const btnUnico = document.getElementById('tab-btn-unico');
@@ -47,19 +48,19 @@ window.alternarAba = function(aba) {
     const abaUnico = document.getElementById('aba-unico');
 
     if (aba === 'massa') {
-        btnMassa.classList.add('active');
-        btnUnico.classList.remove('active');
-        abaMassa.classList.remove('hidden');
-        abaUnico.classList.add('hidden');
+        btnMassa?.classList.add('active');
+        btnUnico?.classList.remove('active');
+        abaMassa?.classList.remove('hidden');
+        abaUnico?.classList.add('hidden');
     } else {
-        btnUnico.classList.add('active');
-        btnMassa.classList.remove('active');
-        abaUnico.classList.remove('hidden');
-        abaMassa.classList.add('hidden');
+        btnUnico?.classList.add('active');
+        btnMassa?.classList.remove('active');
+        abaUnico?.classList.remove('hidden');
+        abaMassa?.classList.add('hidden');
     }
 };
 
-
+// --- IMPORTAÇÃO EM MASSA ---
 window.processarListaMassa = function() {
     const textarea = document.getElementById('texto-massa');
     if (!textarea) return;
@@ -105,7 +106,7 @@ window.processarListaMassa = function() {
     mostrarAlerta(`${adicionados} jogador(es) importados com sucesso!`, "Sucesso", "fa-solid fa-circle-check");
 };
 
-
+// --- MODAL DE ZERAR ELENCO ---
 window.abrirModalZerarElenco = function() {
     if (jogadores.length === 0) {
         mostrarAlerta("O elenco já está totalmente vazio!", "Lista Vazia", "fa-solid fa-triangle-exclamation");
@@ -135,6 +136,7 @@ function embaralhar(array) {
     return array;
 }
 
+// --- RENDERIZAÇÃO DE JOGADORES NA LISTA DE CADASTRO ---
 function renderizarJogadores() {
     if (!listaUl || !contadorSpan) return;
     listaUl.innerHTML = '';
@@ -170,6 +172,7 @@ function renderizarJogadores() {
     
     contadorSpan.innerText = jogadores.length;
     localStorage.setItem('pelada_jogadores', JSON.stringify(jogadores));
+    carregarSelectArtilheiros();
 }
 
 window.alternarPresenca = function(index) {
@@ -203,7 +206,6 @@ window.editarJogador = function(index) {
     }
     if(inputNome) inputNome.focus();
 };
-
 
 window.removerJogador = function(index) {
     indexParaExcluir = index;
@@ -241,8 +243,11 @@ if (form) {
     form.addEventListener('submit', (e) => {
         e.preventDefault();
         const nome = inputNome.value.trim();
-        const posicao = document.querySelector('input[name="posicao"]:checked').value;
-        const nivel = parseInt(document.querySelector('input[name="nivel"]:checked').value);
+        const radioPos = document.querySelector('input[name="posicao"]:checked');
+        const radioNivel = document.querySelector('input[name="nivel"]:checked');
+        
+        const posicao = radioPos ? radioPos.value : 'linha';
+        const nivel = radioNivel ? parseInt(radioNivel.value) : 2;
 
         if (!nome) return;
 
@@ -256,18 +261,21 @@ if (form) {
             jogadores[indexEmEdicao] = { ...jogadores[indexEmEdicao], nome, posicao, nivel };
             indexEmEdicao = null;
             const btnSalvar = form.querySelector('.btn-primary');
-            btnSalvar.innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Salvar no Elenco`;
-            btnSalvar.style.backgroundColor = "#2e7d32";
+            if (btnSalvar) {
+                btnSalvar.innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Salvar no Elenco`;
+                btnSalvar.style.backgroundColor = "#2e7d32";
+            }
         } else {
             jogadores.push({ nome, posicao, nivel, presente: true });
         }
 
         inputNome.value = ''; 
         renderizarJogadores();
-        secaoResultado.classList.add('hidden');
+        if (secaoResultado) secaoResultado.classList.add('hidden');
     });
 }
 
+// --- MONTAGEM E EXIBIÇÃO DOS TIMES FORMADOS ---
 function atualizarInterfaceTimes() {
     containerTimesDinamicos.innerHTML = '';
     
@@ -279,38 +287,37 @@ function atualizarInterfaceTimes() {
         
         let titularesHtml = time.jogadores.map((j, jogIdx) => {
             const iconePos = j.posicao === 'goleiro' ? 'fa-solid fa-mitten' : 'fa-solid fa-person-running';
-            const btnTroca = (time.revezamento.length > 0 && j.posicao === 'linha') ? 
-                `<button class="btn-substituir" onclick="substituirJogador(${timeIdx}, ${jogIdx})" title="Enviar para revezamento e puxar o próximo"><i class="fa-solid fa-right-left"></i> Trocar</button>` : '';
+            const btnTrocaFila = ultimoEspera.length > 0 ? 
+                `<button class="btn-substituir" style="padding: 2px 6px; font-size: 0.75rem;" onclick="trocarTitularComFila(${timeIdx}, ${jogIdx})" title="Enviar para o fim da fila de espera e puxar o próximo"><i class="fa-solid fa-right-left"></i> Trocar</button>` : '';
             
             return `<li>
                 <span><i class="${iconePos}"></i>${j.nome}</span>
-                ${btnTroca}
+                ${btnTrocaFila}
             </li>`;
         }).join('');
         
-        let revezamentoHtml = '';
-        if(time.revezamento.length > 0) {
-            revezamentoHtml = `<div style="margin-top:10px; padding-top:5px; border-top: 1px solid #ddd; font-size:0.9rem; color:#e65100;">
-                <strong><i class="fa-solid fa-rotate"></i> Revezamento do Time:</strong>
-                <ul style="padding-left: 5px;">${time.revezamento.map(r => `<li>• ${r.nome}</li>`).join('')}</ul>
-            </div>`;
-        }
-        
         blocoHtml.innerHTML = `
-            <h3 style="color: ${corBorda};"><i class="fa-solid fa-shield-halved"></i> ${time.nome}</h3>
+            <h3 style="color: ${corBorda};"><i class="fa-solid fa-shield-halved"></i> ${time.nome} (${time.jogadores.length})</h3>
             <ul>${titularesHtml}</ul>
-            ${revezamentoHtml}
         `;
         containerTimesDinamicos.appendChild(blocoHtml);
     });
 
+    // --- FILA DE ESPERA ---
     if (blocoEspera && listaEspera) {
         if (ultimoEspera.length > 0) {
             blocoEspera.style.display = "block";
             listaEspera.innerHTML = '';
-            ultimoEspera.forEach(j => {
+            ultimoEspera.forEach((j, idx) => {
                 const liEspera = document.createElement('li');
-                liEspera.innerHTML = `• ${j.nome} ${j.posicao === 'goleiro' ? '<i class="fa-solid fa-mitten"></i>' : ''}`;
+                liEspera.className = 'item-espera';
+
+                const iconePos = j.posicao === 'goleiro' ? '<i class="fa-solid fa-mitten" style="margin-left: 5px;"></i>' : '';
+
+                liEspera.innerHTML = `
+                    <span class="posicao-num">#${idx + 1}</span>
+                    <span>${j.nome} ${iconePos}</span>
+                `;
                 listaEspera.appendChild(liEspera);
             });
         } else {
@@ -335,22 +342,24 @@ function atualizarInterfaceTimes() {
     }
 }
 
-// FUNCIONALIDADE A: SUBSTITUIÇÃO INDIVIDUAL DENTRO DO TIME
-window.substituirJogador = function(timeIndex, jogadorIndex) {
-    let time = timesSorteados[timeIndex];
-    if (!time || time.revezamento.length === 0) return;
+// --- TROCA DIRETA: TITULAR VAI PARA O FIM DA FILA E O #1 DA FILA ENTRA ---
+window.trocarTitularComFila = function(timeIndex, jogIndex) {
+    if (ultimoEspera.length === 0) {
+        mostrarAlerta("Não há ninguém na fila de espera para entrar!", "Fila Vazia", "fa-solid fa-users-slash");
+        return;
+    }
 
-    let saindo = time.jogadores.splice(jogadorIndex, 1)[0];
-    time.revezamento.push(saindo);
+    let saindo = timesSorteados[timeIndex].jogadores[jogIndex];
+    let entrando = ultimoEspera.shift(); 
 
-    let entrando = time.revezamento.shift();
-    time.jogadores.push(entrando);
+    timesSorteados[timeIndex].jogadores[jogIndex] = entrando; 
+    ultimoEspera.push(saindo); 
 
     atualizarInterfaceTimes();
-    mostrarAlerta(`${saindo.nome} foi para o banco. ${entrando.nome} entrou em campo!`, "Substituição Realizada", "fa-solid fa-right-left");
+    mostrarAlerta(`${saindo.nome} foi para o fim da Fila de Espera. ${entrando.nome} assumiu a vaga no ${timesSorteados[timeIndex].nome}!`, "Substituição Concluída", "fa-solid fa-right-left");
 };
 
-
+// --- ROTAÇÃO DOS TIMES PERDEDORES ---
 window.rotacionarTimePerdedor = function(perdedorIdx) {
     if (timesSorteados.length <= 2) return;
 
@@ -361,6 +370,7 @@ window.rotacionarTimePerdedor = function(perdedorIdx) {
     mostrarAlerta(`${timePerdedor.nome} foi para o fim da fila de jogos. Próximo time pronto!`, "Próxima Partida", "fa-solid fa-arrows-spin");
 };
 
+// --- ALGORITMO DO SORTEIO ---
 if (btnSortear) {
     btnSortear.addEventListener('click', () => {
         let presentes = jogadores.filter(j => j.presente);
@@ -389,12 +399,12 @@ if (btnSortear) {
                     id: i + 1,
                     nome: `Time ${String.fromCharCode(65 + i)}`,
                     jogadores: [],
-                    revezamento: [], 
                     somaTecnica: 0
                 });
             }
             ultimoEspera = [];
 
+            // 1. Distribuir Goleiros
             let goleiros = presentes.filter(j => j.posicao === 'goleiro');
             goleiros = embaralhar(goleiros).sort((a,b) => b.nivel - a.nivel);
 
@@ -408,20 +418,19 @@ if (btnSortear) {
                 }
             });
 
+            // 2. Distribuir Jogadores de Linha
             let jogadoresLinha = presentes.filter(j => j.posicao === 'linha');
             jogadoresLinha = embaralhar(jogadoresLinha).sort((a, b) => b.nivel - a.nivel);
 
             jogadoresLinha.forEach(jog => {
-                let timesTitularesDisponiveis = timesSorteados.filter(t => t.jogadores.filter(j => j.posicao === 'linha').length < limitePorTime);
+                let timesDisponiveis = timesSorteados.filter(t => t.jogadores.filter(j => j.posicao === 'linha').length < limitePorTime);
                 
-                if (timesTitularesDisponiveis.length > 0) {
-                    timesTitularesDisponiveis.sort((a, b) => a.somaTecnica - b.somaTecnica);
-                    timesTitularesDisponiveis[0].jogadores.push(jog);
-                    timesTitularesDisponiveis[0].somaTecnica += jog.nivel;
+                if (timesDisponiveis.length > 0) {
+                    timesDisponiveis.sort((a, b) => a.somaTecnica - b.somaTecnica);
+                    timesDisponiveis[0].jogadores.push(jog);
+                    timesDisponiveis[0].somaTecnica += jog.nivel;
                 } else {
-                    timesSorteados.sort((a, b) => a.revezamento.length - b.revezamento.length);
-                    timesSorteados[0].revezamento.push(jog);
-                    timesSorteados[0].somaTecnica += (jog.nivel * 0.5); 
+                    ultimoEspera.push(jog);
                 }
             });
 
@@ -436,10 +445,11 @@ if (btnSortear) {
             secaoResultado.classList.remove('hidden');
             secaoResultado.scrollIntoView({ behavior: 'smooth' });
 
-        }, 1500);
+        }, 1200);
     });
 }
 
+// --- COMPARTILHAMENTO WHATSAPP ---
 if (btnWhatsapp) {
     btnWhatsapp.addEventListener('click', () => {
         if (timesSorteados.length === 0) return;
@@ -451,16 +461,12 @@ if (btnWhatsapp) {
             time.jogadores.forEach(j => {
                 textoWhats += `• ${j.nome} ${j.posicao === 'goleiro' ? '(GK 🧤)' : ''}\n`;
             });
-            
-            if(time.revezamento.length > 0) {
-                textoWhats += ` _Revezamento:_ ${time.revezamento.map(r => r.nome).join(', ')}\n`;
-            }
             textoWhats += `\n`;
         });
         
         if (ultimoEspera.length > 0) {
-            textoWhats += ` ⏳ *GOLEIROS EXTRAS / ESPERA*\n`;
-            ultimoEspera.forEach(j => textoWhats += `• ${j.nome} \n`);
+            textoWhats += ` ⏳ *PRÓXIMOS DA FILA / ESPERA*\n`;
+            ultimoEspera.forEach((j, idx) => textoWhats += `${idx + 1}. ${j.nome} ${j.posicao === 'goleiro' ? '(GK 🧤)' : ''}\n`);
             textoWhats += `\n`;
         }
         
@@ -468,24 +474,18 @@ if (btnWhatsapp) {
 
         navigator.clipboard.writeText(textoWhats).then(() => {
             mostrarAlerta("Tabela do torneio copiada para a área de transferência!", "Copiado com Sucesso", "fa-solid fa-paste");
-        }).catch(err => {
+        }).catch(() => {
             mostrarAlerta("Erro ao copiar para a área de transferência.", "Erro ao Copiar", "fa-solid fa-xmark");
         });
     });
 }
 
-renderizarJogadores();
-
-
-let artilheiros = JSON.parse(localStorage.getItem('pelada_artilheiros')) || [];
-
-
+// --- MÓDULO DE ARTILHARIA ---
 function carregarSelectArtilheiros() {
     const select = document.getElementById('selectArtilheiro');
     if (!select) return;
 
     select.innerHTML = '<option value="">Selecione o Craque...</option>';
-    
     
     jogadores.forEach(j => {
         const option = document.createElement('option');
@@ -494,12 +494,6 @@ function carregarSelectArtilheiros() {
         select.appendChild(option);
     });
 }
-
-const renderOriginal = renderizarJogadores;
-renderizarJogadores = function() {
-    renderOriginal();
-    carregarSelectArtilheiros();
-};
 
 const btnSalvarArtilheiro = document.getElementById('btnSalvarArtilheiro');
 if (btnSalvarArtilheiro) {
@@ -511,12 +505,12 @@ if (btnSalvarArtilheiro) {
         const gols = inputGolsArt ? parseInt(inputGolsArt.value) : 0;
 
         if (!nome) {
-            alert("Por favor, selecione um jogador da lista!");
+            mostrarAlerta("Por favor, selecione um jogador da lista!", "Aviso", "fa-solid fa-user-plus");
             return;
         }
 
         if (isNaN(gols) || gols <= 0) {
-            alert("Informe pelo menos 1 gol válido!");
+            mostrarAlerta("Informe pelo menos 1 gol válido!", "Gols Inválidos", "fa-solid fa-futbol");
             return;
         }
 
@@ -534,6 +528,8 @@ if (btnSalvarArtilheiro) {
 
         if (selectArt) selectArt.value = '';
         if (inputGolsArt) inputGolsArt.value = '1';
+        
+        mostrarAlerta(`Gols registrados para ${nome} com sucesso!`, "Gol Registrado", "fa-solid fa-futbol");
     });
 }
 
@@ -583,6 +579,6 @@ function atualizarListaArtilheiros() {
     });
 }
 
-// Inicializa o select e a lista ao carregar a página
-carregarSelectArtilheiros();
+// --- INICIALIZAÇÃO DA APLICAÇÃO ---
+renderizarJogadores();
 atualizarListaArtilheiros();

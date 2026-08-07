@@ -614,3 +614,16 @@ ul {
         gap: 15px;
     }
 }
+/* Item da lista de espera alinhado nas extremidades */
+.item-espera {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    border-bottom: 1px solid #eee;
+}
+
+.item-espera .posicao-num {
+    font-weight: bold;
+    color: #555;
+}
